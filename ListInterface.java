@@ -15,7 +15,7 @@
        The list size will be increased by 1.
        Other item positions at or below specified position will be effected.
        @param item  The object to be added.
-       @param position  The location the item should be placed in the list.
+       @param position  The location the item should be placed in the list. Can choose between 1 - 10.
        @throws  IndexOutOfBoundException if either position < 1 or position > getLength() + 1. */
    public void add(int position, T item);
 
