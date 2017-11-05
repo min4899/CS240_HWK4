@@ -22,18 +22,7 @@ public final class FixedSizeArrayList<T> implements ListInterface<T>
       @param item  The object to be added. */
   public void add(T item)
   {
-    if(numberOfEntries < 10)
-    {
-      list[numberOfEntries] =  item;
-      numberOfEntries++;
-    }
-    else
-    {
-      System.out.println("Maximum amount of entries already in list. " +
-                         "Cannot insert new entry.");
-    } // end if
-
-    //add(numberOfEntries + 1, item);
+    add(numberOfEntries + 1, item);
   } // end add
 
   /** Add an entry to the specificed position of the list.

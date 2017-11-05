@@ -101,7 +101,7 @@ public class Demo
     System.out.println("Testing errors: Adding and removing beyond index.");
     list.add(0, "Test1");
     list.replace(5, "Test2");
-    System.out.println(list.remove(7));
+    list.remove(7);
     System.out.println();
 
     System.out.println("Clearing list.");
