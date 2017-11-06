@@ -1,15 +1,15 @@
 /**
-   A linked data array that implements ListInterface.
+   A double linked data array that implements ListInterface.
    @author Minwoo Soh
 */
-public final class LinkedDataList<T> implements ListInterface<T>
+public final class DoubleLinkedDataList<T> implements ListInterface<T>
 {
   private Node firstNode;
   private Node lastNode;
   private int numberOfEntries;
 
-  /** Creates an empty LinkedDataList object with no nodes. */
-  public LinkedDataList()
+  /** Creates an empt DoubleLinkedDataList object with no nodes. */
+  public DoubleLinkedDataList()
   {
     firstNode = null;
     lastNode = null;
@@ -31,6 +31,7 @@ public final class LinkedDataList<T> implements ListInterface<T>
     }
     else
     {
+      newNode.prev = lastNode;
       lastNode.next = newNode;
       lastNode = newNode;
     } // end if
@@ -58,10 +59,12 @@ public final class LinkedDataList<T> implements ListInterface<T>
         else if(position == 1) // If new entry is to be placed at front.
         {
           newNode.next = firstNode;
+          firstNode.prev = newNode;
           firstNode = newNode;
         }
         else if(position == numberOfEntries + 1) // If new entry is to be placed at end.
         {
+          newNode.prev = lastNode;
           lastNode.next = newNode;
           lastNode = newNode;
         }
@@ -69,8 +72,10 @@ public final class LinkedDataList<T> implements ListInterface<T>
         {
           Node before = getNodeAt(position - 1);
           Node after = before.next;
-          newNode.next = after;
           before.next = newNode;
+          newNode.prev = before;
+          newNode.next = after;
+          after.prev = newNode;
         } // end if
         numberOfEntries++;
       }
@@ -104,14 +109,23 @@ public final class LinkedDataList<T> implements ListInterface<T>
       {
         if ( (position >= 1) && (position <= numberOfEntries) )
         {
-          if(position == 1)
+          if(numberOfEntries == 1)
           {
             result = firstNode.data;
+            firstNode = null;
+            lastNode = null;
+          } // end if
+          else if(position == 1)
+          {
+            result = firstNode.data;
+            firstNode.next.prev = null;
             firstNode = firstNode.next;
-            if(numberOfEntries == 1)
-            {
-              lastNode = null;
-            } // end if
+          }
+          else if(position == numberOfEntries)
+          {
+            result = lastNode.data;
+            lastNode.prev.next = null;
+            lastNode = lastNode.prev;
           }
           else
           {
@@ -119,11 +133,8 @@ public final class LinkedDataList<T> implements ListInterface<T>
             Node nodeToRemove = before.next;
             result = nodeToRemove.data;
             Node after = nodeToRemove.next;
+            after.prev = before;
             before.next = after;
-            if(position == numberOfEntries)
-            {
-              lastNode = before;
-            } // end if
           } // end if
           numberOfEntries--;
         }
@@ -145,6 +156,7 @@ public final class LinkedDataList<T> implements ListInterface<T>
   public void clear()
   {
     firstNode = null;
+    lastNode = null;
     numberOfEntries = 0;
   } // end clear
 
@@ -290,21 +302,23 @@ public final class LinkedDataList<T> implements ListInterface<T>
   private class Node
   {
     private T data;
+    private Node prev; // Link to prev node.
     private Node next; // Link to next node.
     /** Creates a node that points to null.
         @param dataPortion  The data that will be stored in the node. */
     private Node(T dataPortion)
     {
-      this(dataPortion, null);
+      this(dataPortion, null, null);
     } // end constructor
 
     /** Creates a node that points to another node.
         @param dataPortion  The data that will be stored in the node.
-        @param nextNode  The next node that will be referenced. */
-    private Node(T dataPortion, Node nextNode)
+        @param prevNode  The prev node that will be referenced. */
+    private Node(T dataPortion, Node prevNode, Node nextNode)
     {
       data = dataPortion;
+      prev = prevNode;
       next = nextNode;
     } // end constructor
   } // end of Node
-} // end of LinkedDataList
+} // end of DoubleLinkedDataList

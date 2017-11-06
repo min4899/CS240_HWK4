@@ -123,9 +123,14 @@ public class Demo
     list.remove(1);
     */
 
+    /*
     System.out.println("TESTING LINKED DATA LIST");
     FixedSizeArrayList list = new FixedSizeArrayList();
     System.out.println("Create new list for LinkedDataList");
+    */
+    System.out.println("TESTING DOUBLE LINKED DATA LIST");
+    DoubleLinkedDataList list = new DoubleLinkedDataList();
+    System.out.println("Create new list for DoubleLinkedDataList");
 
     System.out.println("Adding items: A, B, C, D, E");
     list.add('A');
@@ -195,13 +200,21 @@ public class Demo
     System.out.println();
 
     System.out.println("Removing items, should only have: Y, Z, C");
+    System.out.println("Removing FOURTH");
     list.remove(4);
+    System.out.println("Removing THIRD");
     list.remove(3);
+    System.out.println("Removing SECOND");
     list.remove(2);
+    System.out.println("Removing FIRST");
     list.remove(1);
+    System.out.println("Removing 1");
     list.remove(4);
+    System.out.println("Removing 2");
     list.remove(4);
+    System.out.println("Removing LAST");
     list.remove(4);
+    System.out.println("Removed items.");
     System.out.println();
 
     //print out
@@ -227,6 +240,25 @@ public class Demo
     System.out.println();
 
     System.out.println("Checking if list is empty");
+
+    //print out
+    System.out.println("The list contains " + list.getLength() +
+                       " items, as follows: ");
+
+    for(int index = 0; index < list.toArray().length; index++)
+    {
+      System.out.print(list.toArray()[index] + " ");
+    }
+
+    System.out.println();
+    System.out.println();
+    list.remove(1);
+
+    System.out.println("Adding 1 item");
+    list.add('A');
+    System.out.println("Removing item");
+    list.remove(1);
+
     //print out
     System.out.println("The list contains " + list.getLength() +
                        " items, as follows: ");
@@ -237,7 +269,6 @@ public class Demo
     }
     System.out.println();
     System.out.println();
-    list.remove(1);
   } // end main
 
 } // end of Demo
