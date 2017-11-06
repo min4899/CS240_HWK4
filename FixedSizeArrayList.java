@@ -79,7 +79,7 @@ public final class FixedSizeArrayList<T> implements ListInterface<T>
       }
       else
       {
-        if ( (position >= 1) && (position <= numberOfEntries + 1) )
+        if ( (position >= 1) && (position <= numberOfEntries) )
         {
           result = list[position - 1];
           list[position - 1] = null;
@@ -126,7 +126,7 @@ public final class FixedSizeArrayList<T> implements ListInterface<T>
       }
       else
       {
-        if ( (position >= 1) && (position <= numberOfEntries + 1) )
+        if ( (position >= 1) && (position <= numberOfEntries) )
         {
           result = list[position - 1];
           list[position - 1] = item;
@@ -161,7 +161,7 @@ public final class FixedSizeArrayList<T> implements ListInterface<T>
       }
       else
       {
-        if ( (position >= 1) && (position <= numberOfEntries + 1) )
+        if ( (position >= 1) && (position <= numberOfEntries) )
         {
           result = list[position - 1];
         }
