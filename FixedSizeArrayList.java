@@ -75,7 +75,7 @@ public final class FixedSizeArrayList<T> implements ListInterface<T>
     {
       if(isEmpty())
       {
-        System.out.print("List is currently empty. No entries to remove.");
+        System.out.println("List is currently empty. No entries to remove.");
       }
       else
       {

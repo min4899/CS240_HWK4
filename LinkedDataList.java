@@ -5,12 +5,14 @@
 public final class LinkedDataList<T> implements ListInterface<T>
 {
   private Node firstNode;
+  private Node lastNode;
   private int numberOfEntries;
 
   /** Creates an empty LinkedDataList object with no nodes. */
   public LinkedDataList()
   {
     firstNode = null;
+    lastNode = null;
     numberOfEntries = 0;
   } // end constructor
 
@@ -25,11 +27,13 @@ public final class LinkedDataList<T> implements ListInterface<T>
     if(isEmpty())
     {
       firstNode = newNode;
+      lastNode = newNode;
     }
     else
     {
-      Node lastNode = getNodeAt(numberOfEntries);
+    //Node lastNode = getNodeAt(numberOfEntries);
       lastNode.next = newNode;
+      lastNode = newNode;
     } // end if
     numberOfEntries++;
   } // end add
@@ -44,13 +48,23 @@ public final class LinkedDataList<T> implements ListInterface<T>
   {
     try
     {
-      if ( (position >= 1) && (position <= numberOfEntries) )
+      if ( (position >= 1) && (position <= numberOfEntries + 1) )
       {
         Node newNode = new Node(item);
-        if(position == 1) // If new entry is placed at front.
+        if(isEmpty())
+        {
+          firstNode = newNode;
+          lastNode = newNode;
+        }
+        else if(position == 1) // If new entry is to be placed at front.
         {
           newNode.next = firstNode;
           firstNode = newNode;
+        }
+        else if(position == numberOfEntries + 1) // If new entr is to be placed at end.
+        {
+          lastNode.next = newNode;
+          lastNode = newNode;
         }
         else // If position > 1.
         {
@@ -59,6 +73,7 @@ public final class LinkedDataList<T> implements ListInterface<T>
           newNode.next = after;
           before.next = newNode;
         } // end if
+        numberOfEntries++;
       }
       else
       {
@@ -82,12 +97,49 @@ public final class LinkedDataList<T> implements ListInterface<T>
     T result = null;
     try
     {
-
+      if(isEmpty())
+      {
+        System.out.println("List is currently empty. No entries to remove.");
+      }
+      else
+      {
+        if ( (position >= 1) && (position <= numberOfEntries) )
+        {
+          if(position == 1)
+          {
+            result = firstNode.data;
+            firstNode = firstNode.next;
+            if(numberOfEntries == 1)
+            {
+              lastNode = null;
+            } // end if
+          }
+          else
+          {
+            Node before = getNodeAt(position - 1);
+            Node nodeToRemove = before.next;
+            result = nodeToRemove.data;
+            Node after = nodeToRemove.next;
+            before.next = after;
+            if(position == numberOfEntries)
+            {
+              lastNode = before;
+            } // end if
+          } // end if
+          numberOfEntries--;
+        }
+        else
+        {
+          throw new IndexOutOfBoundsException("Given position of remove is out of bounds.");
+        } // end if
+      } // end if
     } // end try
     catch(IndexOutOfBoundsException e)
     {
       System.out.println(e.getMessage());
     } // end catch
+
+    return result;
   } // end remove
 
   /** Removes all entries from list. */
@@ -104,8 +156,34 @@ public final class LinkedDataList<T> implements ListInterface<T>
       @throws  IndexOutOfBoundException if either position < 1 or position > getLength() + 1. */
   public T replace(int position, T item)
   {
+    T result = null;
+    try
+    {
+      if(isEmpty())
+      {
+        System.out.println("List is currently empty. No entries to remove.");
+      }
+      else
+      {
+        if ( (position >= 1) && (position <= numberOfEntries) )
+        {
+          Node selectedNode = getNodeAt(position);
+          result = selectedNode.data;
+          selectedNode.data = item;
+        }
+        else
+        {
+          throw new IndexOutOfBoundsException("Given position of replace is out of bounds.");
+        } // end if
+      } // end if
+    } // end try
+    catch(IndexOutOfBoundsException e)
+    {
+      System.out.println(e.getMessage());
+    } // end catch
 
-  }
+    return result;
+  } // end replace
 
   /** Retrieves the entry at the specificed position of the list.
      @param position  The specified location of entry.
@@ -113,16 +191,54 @@ public final class LinkedDataList<T> implements ListInterface<T>
      @throws  IndexOutOfBoundException if either position < 1 or position > getLength() + 1. */
   public T view(int position)
   {
+    T result = null;
+    try
+    {
+      if(isEmpty())
+      {
+        System.out.println("List is currently empty. No entries to remove.");
+      }
+      else
+      {
+        if ( (position >= 1) && (position <= numberOfEntries) )
+        {
+          result = getNodeAt(position).data;
+        }
+        else
+        {
+          throw new IndexOutOfBoundsException("Given position of view is out of bounds.");
+        } // end if
+      } // end if
+    } // end try
+    catch(IndexOutOfBoundsException e)
+    {
+      System.out.println(e.getMessage());
+    } // end catch
 
-  }
+    return result;
+  } // end view
 
   /** See whether this list contains a given entry.
       @param item  The object that is the desired entry.
       @return  True if the list contains the item, false if not. */
   public boolean contains(T item)
   {
+    boolean found = false;
+    Node currentNode = firstNode;
+    while( (!found) && (currentNode != null) )
+    {
+      if(item.equals(currentNode.data))
+      {
+        found = true;
+      }
+      else
+      {
+        currentNode = currentNode.next;
+      } // end if
+    } // end while
 
-  }
+    return found;
+  } // end contains
 
   /** Gets the length of the list.
       @return  The integer number of entries currently in the list. */
@@ -142,9 +258,22 @@ public final class LinkedDataList<T> implements ListInterface<T>
       @return  A newly created array of all entries in the list. */
   public T[] toArray()
   {
+    @SuppressWarnings("unchecked")
+    T[] result = (T[])new Object[numberOfEntries]; // Unchecked cast.
 
-  }
+    Node currentNode = firstNode;
+    int index = 0;
+    while( (index < numberOfEntries) && (currentNode != null) )
+    {
+      result[index] = currentNode.data;
+      currentNode = currentNode.next;
+      index++;
+    }// end while
 
+    return result;
+  } // end toArray
+
+  /**  */
   private Node getNodeAt(int position)
   {
     Node currentNode = firstNode;
@@ -155,7 +284,7 @@ public final class LinkedDataList<T> implements ListInterface<T>
     } // end for
 
     return currentNode;
-  }
+  } // end getNodeAt
 
   /** Private inner class Node */
   private class Node
