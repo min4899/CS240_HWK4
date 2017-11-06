@@ -273,7 +273,8 @@ public final class LinkedDataList<T> implements ListInterface<T>
     return result;
   } // end toArray
 
-  /**  */
+  /** Returns a reference to the node at the given position.
+      @param position  The position of the wanted entry. */
   private Node getNodeAt(int position)
   {
     Node currentNode = firstNode;
