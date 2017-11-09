@@ -1,8 +1,8 @@
 /**
-   A linked data array that implements ListInterface.
+   A linked data list that implements ListInterface.
    @author Minwoo Soh
 */
-public final class LinkedDataList<T> implements ListInterface<T>
+public class LinkedDataList<T> implements ListInterface<T>
 {
   private Node firstNode;
   private Node lastNode;

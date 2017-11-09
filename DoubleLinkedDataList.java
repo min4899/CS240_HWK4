@@ -1,5 +1,5 @@
 /**
-   A double linked data array that implements ListInterface.
+   A double linked data list that implements ListInterface.
    @author Minwoo Soh
 */
 public final class DoubleLinkedDataList<T> implements ListInterface<T>
